@@ -8,7 +8,7 @@ import (
 )
 
 type logger struct {
-	log *zap.Logger
+	log *zap.SugaredLogger
 }
 
 func (l *logger) Print(v ...interface{}) {

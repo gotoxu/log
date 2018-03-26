@@ -49,6 +49,6 @@ func New(debugLevel bool, app string) (core.Logger, error) {
 		atom = zap.NewAtomicLevelAt(zap.InfoLevel)
 	}
 
-	_log := zap.New(zapcore.NewCore(enc, zapcore.Lock(sink), atom))
+	_log := zap.New(zapcore.NewCore(enc, zapcore.Lock(sink), atom)).Sugar()
 	return &logger{log: _log}, nil
 }
