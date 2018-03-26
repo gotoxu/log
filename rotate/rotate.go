@@ -1,34 +1,29 @@
 package rotate
 
 import (
-	"io"
-	"os"
 	"path/filepath"
 
 	"github.com/natefinch/lumberjack"
+	"github.com/robfig/cron"
 	"github.com/ycyz/log/core"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
 // New 创建一个新的rotate file logger
-// 注意：第二个返回值为文件日志器，在应用程序退出时请记得调用其Close方法
-func New(debugLevel bool) (core.Logger, io.WriteCloser, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, nil, err
+func New(debugLevel bool, options ...Option) core.Logger {
+	cfg := defaultConfig()
+	for _, opt := range options {
+		opt(cfg)
 	}
 
-	path := filepath.Join(wd, "logs", "app.log")
+	writer := newRollingFile(cfg)
+	zl := newZap(debugLevel, writer)
 
-	lumlog := &lumberjack.Logger{
-		Filename:   path,
-		MaxSize:    500,
-		MaxBackups: 3,
-		MaxAge:     28,
-	}
-	w := zapcore.AddSync(lumlog)
+	return core.NewLogger(zl.Sugar())
+}
 
+func newZap(debugLevel bool, output zapcore.WriteSyncer) *zap.Logger {
 	cfg := zap.NewProductionEncoderConfig()
 	cfg.EncodeCaller = core.DefaultCallerEncoder
 	cfg.EncodeTime = zapcore.ISO8601TimeEncoder
@@ -42,8 +37,26 @@ func New(debugLevel bool) (core.Logger, io.WriteCloser, error) {
 		atom = zap.NewAtomicLevelAt(zap.InfoLevel)
 	}
 
-	zapc := zapcore.NewCore(zapcore.NewConsoleEncoder(cfg), w, atom)
-	l := zap.New(zapc, zap.AddCaller(), zap.AddStacktrace(atom)).Sugar()
+	opts := []zap.Option{zap.AddCaller()}
+	opts = append(opts, zap.AddStacktrace(atom))
 
-	return core.NewLogger(l), lumlog, nil
+	encoder := zapcore.NewConsoleEncoder(cfg)
+	return zap.New(zapcore.NewCore(encoder, output, atom), opts...)
+}
+
+func newRollingFile(config *Config) zapcore.WriteSyncer {
+	lj := lumberjack.Logger{
+		Filename:   filepath.Join(config.Directory, config.Filename),
+		MaxSize:    config.MaxSize,
+		MaxAge:     config.MaxAge,
+		MaxBackups: config.MaxBackups,
+		LocalTime:  true,
+		Compress:   config.Compress,
+	}
+
+	c := cron.New()
+	c.AddFunc("@daily", func() { lj.Rotate() })
+	c.Start()
+
+	return zapcore.AddSync(&lj)
 }

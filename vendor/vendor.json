@@ -11,6 +11,14 @@
 			"versionExact": "v2.1"
 		},
 		{
+			"checksumSHA1": "TABGthIVQTgZB+ZznwY4OPU2h1o=",
+			"path": "github.com/robfig/cron",
+			"revision": "67823cd24dece1b04cced3a0a0b3ca2bc84d875e",
+			"revisionTime": "2014-11-23T18:28:03Z",
+			"version": "=v1",
+			"versionExact": "v1"
+		},
+		{
 			"checksumSHA1": "HedK9m8E8iyib4bIBtIX7xprOgo=",
 			"path": "go.uber.org/atomic",
 			"revision": "8474b86a5a6f79c443ce4b2992817ff32cf208b8",

@@ -1,20 +1,12 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/ycyz/log/core"
-	"github.com/ycyz/log/file"
+	"github.com/ycyz/log/rotate"
 )
 
 func main() {
-	fl, closer, err := file.New(true)
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer closer.Close()
-
+	fl := rotate.New(true)
 	method1(fl)
 }
 
