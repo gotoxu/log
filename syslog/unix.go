@@ -6,9 +6,8 @@ import (
 	"log/syslog"
 	"os"
 
-	"go.uber.org/zap"
-
 	"github.com/ycyz/log/core"
+	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
@@ -50,5 +49,5 @@ func New(debugLevel bool, app string) (core.Logger, error) {
 	}
 
 	_log := zap.New(zapcore.NewCore(enc, zapcore.Lock(sink), atom)).Sugar()
-	return &logger{log: _log}, nil
+	return core.NewLogger(_log), nil
 }

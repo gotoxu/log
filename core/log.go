@@ -1,5 +1,7 @@
 package core
 
+import "go.uber.org/zap"
+
 // Logger 日志器接口
 type Logger interface {
 	Print(v ...interface{})
@@ -25,4 +27,10 @@ type Logger interface {
 	Panicln(v ...interface{})
 	With(key string, value interface{}) Logger
 	Sync() error
+}
+
+// NewLogger 创建一个新的日志器，该日志器实现Logger接口
+func NewLogger(log *zap.SugaredLogger) Logger {
+	w := &wrapper{log: log}
+	return w
 }

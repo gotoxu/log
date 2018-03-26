@@ -1,25 +1,19 @@
-package file
+package rotate
 
 import (
-	"errors"
 	"io"
 	"os"
 	"path/filepath"
 
-	"go.uber.org/zap"
-
 	"github.com/natefinch/lumberjack"
 	"github.com/ycyz/log/core"
+	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
 // New 创建一个新的rotate file logger
 // 注意：第二个返回值为文件日志器，在应用程序退出时请记得调用其Close方法
-func New(debugLevel bool, app string) (core.Logger, io.WriteCloser, error) {
-	if app == "" {
-		return nil, nil, errors.New("Please specify the application name")
-	}
-
+func New(debugLevel bool) (core.Logger, io.WriteCloser, error) {
 	wd, err := os.Getwd()
 	if err != nil {
 		return nil, nil, err
@@ -48,8 +42,8 @@ func New(debugLevel bool, app string) (core.Logger, io.WriteCloser, error) {
 		atom = zap.NewAtomicLevelAt(zap.InfoLevel)
 	}
 
-	core := zapcore.NewCore(zapcore.NewJSONEncoder(cfg), w, atom)
-	l := zap.New(core).Sugar()
+	zapc := zapcore.NewCore(zapcore.NewConsoleEncoder(cfg), w, atom)
+	l := zap.New(zapc, zap.AddCaller(), zap.AddStacktrace(atom)).Sugar()
 
-	return &logger{log: l}, lumlog, nil
+	return core.NewLogger(l), lumlog, nil
 }
