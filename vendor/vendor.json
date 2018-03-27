@@ -3,6 +3,70 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "GE9y3KX8Fe7oXWPnUJ70BEmX3cg=",
+			"path": "github.com/go-redis/redis",
+			"revision": "877867d2845fbaf86798befe410b6ceb6f5c29a3",
+			"revisionTime": "2018-03-14T10:42:51Z",
+			"version": "=v6.10.2",
+			"versionExact": "v6.10.2"
+		},
+		{
+			"checksumSHA1": "L/n8TwOiRwhhL2TvFNafxB6rAwY=",
+			"path": "github.com/go-redis/redis/internal",
+			"revision": "877867d2845fbaf86798befe410b6ceb6f5c29a3",
+			"revisionTime": "2018-03-14T10:42:51Z",
+			"version": "=v6.10.2",
+			"versionExact": "v6.10.2"
+		},
+		{
+			"checksumSHA1": "GQZsUVg/+6UpQAYpc4luMvMutSI=",
+			"path": "github.com/go-redis/redis/internal/consistenthash",
+			"revision": "877867d2845fbaf86798befe410b6ceb6f5c29a3",
+			"revisionTime": "2018-03-14T10:42:51Z",
+			"version": "=v6.10.2",
+			"versionExact": "v6.10.2"
+		},
+		{
+			"checksumSHA1": "GE9tg94JwCzMbBwn3Q2LaFs5Rx0=",
+			"path": "github.com/go-redis/redis/internal/hashtag",
+			"revision": "877867d2845fbaf86798befe410b6ceb6f5c29a3",
+			"revisionTime": "2018-03-14T10:42:51Z",
+			"version": "=v6.10.2",
+			"versionExact": "v6.10.2"
+		},
+		{
+			"checksumSHA1": "AtcctlDri3zLh6U5sDnT4NULEtw=",
+			"path": "github.com/go-redis/redis/internal/pool",
+			"revision": "877867d2845fbaf86798befe410b6ceb6f5c29a3",
+			"revisionTime": "2018-03-14T10:42:51Z",
+			"version": "=v6.10.2",
+			"versionExact": "v6.10.2"
+		},
+		{
+			"checksumSHA1": "2DZs/18lBWzZk2rxWLVtPUzNXhs=",
+			"path": "github.com/go-redis/redis/internal/proto",
+			"revision": "877867d2845fbaf86798befe410b6ceb6f5c29a3",
+			"revisionTime": "2018-03-14T10:42:51Z",
+			"version": "=v6.10.2",
+			"versionExact": "v6.10.2"
+		},
+		{
+			"checksumSHA1": "sjbjSJrTdvyDwNjrWjTNeXgUhaU=",
+			"path": "github.com/go-redis/redis/internal/singleflight",
+			"revision": "877867d2845fbaf86798befe410b6ceb6f5c29a3",
+			"revisionTime": "2018-03-14T10:42:51Z",
+			"version": "=v6.10.2",
+			"versionExact": "v6.10.2"
+		},
+		{
+			"checksumSHA1": "SvyqZrzHTVxCIBoawql2ucvfWLE=",
+			"path": "github.com/go-redis/redis/internal/util",
+			"revision": "877867d2845fbaf86798befe410b6ceb6f5c29a3",
+			"revisionTime": "2018-03-14T10:42:51Z",
+			"version": "=v6.10.2",
+			"versionExact": "v6.10.2"
+		},
+		{
 			"checksumSHA1": "HxAClZIIKvehC672J4fPke3iow8=",
 			"path": "github.com/natefinch/lumberjack",
 			"revision": "a96e63847dc3c67d17befa69c303767e2f84e54f",
