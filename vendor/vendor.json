@@ -67,14 +67,6 @@
 			"versionExact": "v6.10.2"
 		},
 		{
-			"checksumSHA1": "HxAClZIIKvehC672J4fPke3iow8=",
-			"path": "github.com/natefinch/lumberjack",
-			"revision": "a96e63847dc3c67d17befa69c303767e2f84e54f",
-			"revisionTime": "2017-05-31T16:03:50Z",
-			"version": "=v2.1",
-			"versionExact": "v2.1"
-		},
-		{
 			"checksumSHA1": "TABGthIVQTgZB+ZznwY4OPU2h1o=",
 			"path": "github.com/robfig/cron",
 			"revision": "67823cd24dece1b04cced3a0a0b3ca2bc84d875e",
@@ -141,6 +133,12 @@
 			"revisionTime": "2017-09-25T19:53:02Z",
 			"version": "=v1.7.1",
 			"versionExact": "v1.7.1"
+		},
+		{
+			"checksumSHA1": "TM3Neoy1xRAKyZYMGzKc41sDFW4=",
+			"path": "gopkg.in/natefinch/lumberjack.v2",
+			"revision": "a96e63847dc3c67d17befa69c303767e2f84e54f",
+			"revisionTime": "2017-05-31T16:03:50Z"
 		}
 	],
 	"rootPath": "github.com/ycyz/log"

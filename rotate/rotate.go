@@ -3,11 +3,11 @@ package rotate
 import (
 	"path/filepath"
 
-	"github.com/natefinch/lumberjack"
 	"github.com/robfig/cron"
 	"github.com/ycyz/log/core"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	lumberjack "gopkg.in/natefinch/lumberjack.v2"
 )
 
 // New 创建一个新的rotate file logger
