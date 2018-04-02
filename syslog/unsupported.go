@@ -1,17 +1,14 @@
-// +build windows plan9
+// +build windows plan9 nacl
 
 package syslog
 
 import (
-	"errors"
+	"fmt"
 
-	"github.com/ycyz/log/core"
+	"github.com/gotoxu/log/core"
 )
 
-func newSyncer() (*Syncer, error) {
-	return nil, errors.New("Platform does not support syslog")
-}
-
-func New(debugLevel bool, app string) (core.Logger, error) {
-	return nil, errors.New("Platform does not support syslog")
+// NewLogger 用来创建一个新的syslog日志器
+func NewLogger(p Priority, facility, tag string) (core.Logger, error) {
+	return nil, fmt.Errorf("Platform does not support syslog")
 }
