@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/ycyz/log/core"
-	"github.com/ycyz/log/rotate"
+	"github.com/gotoxu/log/core"
+	"github.com/gotoxu/log/rotate"
 )
 
 func main() {

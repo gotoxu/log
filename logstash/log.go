@@ -1,7 +1,7 @@
 package logstash
 
 import (
-	"github.com/ycyz/log/core"
+	"github.com/gotoxu/log/core"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )

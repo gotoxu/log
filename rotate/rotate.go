@@ -3,8 +3,8 @@ package rotate
 import (
 	"path/filepath"
 
+	"github.com/gotoxu/log/core"
 	"github.com/robfig/cron"
-	"github.com/ycyz/log/core"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	lumberjack "gopkg.in/natefinch/lumberjack.v2"
