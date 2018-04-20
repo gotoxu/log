@@ -11,5 +11,5 @@ func main() {
 }
 
 func method1(logger core.Logger) {
-	logger.Error("Test error: error message.")
+	logger.Log(core.Error, "Test error: error message.")
 }
