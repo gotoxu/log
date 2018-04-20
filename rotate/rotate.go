@@ -4,6 +4,7 @@ import (
 	"path/filepath"
 
 	"github.com/gotoxu/log/core"
+	"github.com/gotoxu/log/uberzap"
 	"github.com/robfig/cron"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -20,12 +21,12 @@ func New(debugLevel bool, options ...Option) core.Logger {
 	writer := newRollingFile(cfg)
 	zl := newZap(debugLevel, writer)
 
-	return core.NewLogger(zl.Sugar())
+	return uberzap.NewLogger(zl.Sugar())
 }
 
 func newZap(debugLevel bool, output zapcore.WriteSyncer) *zap.Logger {
 	cfg := zap.NewProductionEncoderConfig()
-	cfg.EncodeCaller = core.DefaultCallerEncoder
+	cfg.EncodeCaller = uberzap.DefaultCallerEncoder
 	cfg.EncodeTime = zapcore.ISO8601TimeEncoder
 	cfg.EncodeDuration = zapcore.SecondsDurationEncoder
 	cfg.EncodeLevel = zapcore.LowercaseLevelEncoder

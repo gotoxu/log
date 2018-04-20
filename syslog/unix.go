@@ -4,8 +4,10 @@ package syslog
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"log/syslog"
+	"os"
 	"strings"
 	"sync"
 
@@ -48,151 +50,112 @@ type builtinLogger struct {
 	*builtinWriter
 }
 
-func (b *builtinLogger) Print(v ...interface{}) {
+func (b *builtinLogger) Log(level core.Level, v ...interface{}) {
 	bs := getBuffer()
+	defer putBuffer(bs)
 	fmt.Fprint(bs, v...)
-	b.writeLevel(LOG_NOTICE, bs.Bytes())
-	putBuffer(bs)
+
+	if level == core.Debug {
+		b.writeLevel(LOG_DEBUG, bs.Bytes())
+		return
+	}
+
+	if level == core.Info {
+		b.writeLevel(LOG_NOTICE, bs.Bytes())
+		return
+	}
+
+	if level == core.Warn {
+		b.writeLevel(LOG_WARNING, bs.Bytes())
+		return
+	}
+
+	if level == core.Error {
+		b.writeLevel(LOG_ERR, bs.Bytes())
+		return
+	}
+
+	if level == core.Panic {
+		b.writeLevel(LOG_CRIT, bs.Bytes())
+		panic(errors.New(bs.String()))
+	}
+
+	if level == core.Fatal {
+		b.writeLevel(LOG_EMERG, bs.Bytes())
+		os.Exit(1)
+	}
 }
 
-func (b *builtinLogger) Printf(format string, args ...interface{}) {
+func (b *builtinLogger) Logf(level core.Level, format string, v ...interface{}) {
 	bs := getBuffer()
-	fmt.Fprintf(bs, format, args...)
-	b.writeLevel(LOG_NOTICE, bs.Bytes())
-	putBuffer(bs)
+	defer putBuffer(bs)
+	fmt.Fprintf(bs, format, v...)
+
+	if level == core.Debug {
+		b.writeLevel(LOG_DEBUG, bs.Bytes())
+		return
+	}
+
+	if level == core.Info {
+		b.writeLevel(LOG_NOTICE, bs.Bytes())
+		return
+	}
+
+	if level == core.Warn {
+		b.writeLevel(LOG_WARNING, bs.Bytes())
+		return
+	}
+
+	if level == core.Error {
+		b.writeLevel(LOG_ERR, bs.Bytes())
+		return
+	}
+
+	if level == core.Panic {
+		b.writeLevel(LOG_CRIT, bs.Bytes())
+		panic(errors.New(bs.String()))
+	}
+
+	if level == core.Fatal {
+		b.writeLevel(LOG_EMERG, bs.Bytes())
+		os.Exit(1)
+	}
 }
 
-func (b *builtinLogger) Println(v ...interface{}) {
+func (b *builtinLogger) Logln(level core.Level, v ...interface{}) {
 	bs := getBuffer()
+	defer putBuffer(bs)
 	fmt.Fprintln(bs, v...)
-	b.writeLevel(LOG_NOTICE, bs.Bytes())
-	putBuffer(bs)
-}
 
-func (b *builtinLogger) Debug(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprint(bs, v...)
-	b.writeLevel(LOG_DEBUG, bs.Bytes())
-	putBuffer(bs)
-}
+	if level == core.Debug {
+		b.writeLevel(LOG_DEBUG, bs.Bytes())
+		return
+	}
 
-func (b *builtinLogger) Debugf(format string, args ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintf(bs, format, args...)
-	b.writeLevel(LOG_DEBUG, bs.Bytes())
-	putBuffer(bs)
-}
+	if level == core.Info {
+		b.writeLevel(LOG_NOTICE, bs.Bytes())
+		return
+	}
 
-func (b *builtinLogger) Debugln(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintln(bs, v...)
-	b.writeLevel(LOG_DEBUG, bs.Bytes())
-	putBuffer(bs)
-}
+	if level == core.Warn {
+		b.writeLevel(LOG_WARNING, bs.Bytes())
+		return
+	}
 
-func (b *builtinLogger) Info(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprint(bs, v...)
-	b.writeLevel(LOG_INFO, bs.Bytes())
-	putBuffer(bs)
-}
+	if level == core.Error {
+		b.writeLevel(LOG_ERR, bs.Bytes())
+		return
+	}
 
-func (b *builtinLogger) Infof(format string, args ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintf(bs, format, args...)
-	b.writeLevel(LOG_INFO, bs.Bytes())
-	putBuffer(bs)
-}
+	if level == core.Panic {
+		b.writeLevel(LOG_CRIT, bs.Bytes())
+		panic(errors.New(bs.String()))
+	}
 
-func (b *builtinLogger) Infoln(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintln(bs, v...)
-	b.writeLevel(LOG_INFO, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Warn(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprint(bs, v...)
-	b.writeLevel(LOG_WARNING, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Warnf(format string, args ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintf(bs, format, args...)
-	b.writeLevel(LOG_WARNING, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Warnln(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintln(bs, v...)
-	b.writeLevel(LOG_WARNING, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Error(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprint(bs, v...)
-	b.writeLevel(LOG_ERR, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Errorf(format string, args ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintf(bs, format, args...)
-	b.writeLevel(LOG_ERR, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Errorln(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintln(bs, v...)
-	b.writeLevel(LOG_ERR, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Fatal(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprint(bs, v...)
-	b.writeLevel(LOG_EMERG, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Fatalf(format string, args ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintf(bs, format, args...)
-	b.writeLevel(LOG_EMERG, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Fatalln(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintln(bs, v...)
-	b.writeLevel(LOG_EMERG, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Panic(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprint(bs, v...)
-	b.writeLevel(LOG_CRIT, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Panicf(format string, args ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintf(bs, format, args...)
-	b.writeLevel(LOG_CRIT, bs.Bytes())
-	putBuffer(bs)
-}
-
-func (b *builtinLogger) Panicln(v ...interface{}) {
-	bs := getBuffer()
-	fmt.Fprintln(bs, v...)
-	b.writeLevel(LOG_CRIT, bs.Bytes())
-	putBuffer(bs)
+	if level == core.Fatal {
+		b.writeLevel(LOG_EMERG, bs.Bytes())
+		os.Exit(1)
+	}
 }
 
 func (b *builtinLogger) With(key string, value interface{}) core.Logger {
